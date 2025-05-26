@@ -1,6 +1,6 @@
 import rioxarray
-from .clippers import RioShapeClipper, RioPostGISClipper, RioGeoServerClipper
-from .types import RioxarrayDataArray, GeoServerBasicAuth
+from .clippers import *
+from .types import *
 from typing import Union
 
 def open_raster(raster_path: str) -> RioxarrayDataArray:
@@ -36,3 +36,8 @@ def get_clipper(
     else:
         raise ValueError(f"Unsupported clip type: {clip_type}")
 
+def main():
+    print("Working")
+
+if __name__ == "__main__":
+    main()
