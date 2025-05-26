@@ -1,0 +1,3 @@
+from .raster_clipper_postgis import RioPostGISClipper
+from .raster_clipper_shapefile import RioShapeClipper
+from .raster_clipper_geoserver import RioGeoServerClipper
