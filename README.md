@@ -67,17 +67,16 @@ result.rio.to_raster(output_file)
 ```python
 from aclimate_v3_cut_spatial_data import get_clipper, GeoServerBasicAuth
 
-conn = GeoServerBasicAuth()  # Uses .env variables
-clipper = get_clipper("input.tif", 'geoserver')
-clipper.connection = conn
-result = clipper.clip(feature_id="field_25")
-
-
 input_raster = "path/raster.tif"
-input_shape = "path/shapefile.shp"
 output_file = "path/raster_result.tif"
-clipper = get_clipper(input_raster, 'shape')
-result = clipper.clip(input_shape)
+conn = GeoServerBasicAuth()  # Uses .env variables
+clipper = get_clipper(input_raster, 'geoserver')
+clipper.connection = conn
+
+result = clipper.clip("field_25") # If you want to clip by feature ID
+result.rio.to_raster(output_file)
+
+whole_result = clipper.clip() # If you want to clip by complete geometry
 result.rio.to_raster(output_file)
 
 ```
