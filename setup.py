@@ -1,13 +1,13 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="aclimate_cut_spatial_data",
+    name="aclimate_v3_cut_spatial_data",
     version='v0.0.1',
     author="santiago123x",
     author_email="s.calderon@cgiar.com",
     description="Package to clip spatial data (raster/vector) using shapefiles or coordinates. Perfect for processing climate, agricultural, or environmental data",
-    url="https://github.com/CIAT-DAPA/aclimate_cut_spatial_data",
-    download_url="https://github.com/CIAT-DAPA/aclimate_cut_spatial_data",
+    url="https://github.com/CIAT-DAPA/aclimate_v3_cut_spatial_data",
+    download_url="https://github.com/CIAT-DAPA/aclimate_v3_cut_spatial_data",
     packages=find_packages('src'),
     package_dir={'': 'src'},
     classifiers=[
@@ -47,6 +47,11 @@ setup(
         "typing_extensions==4.13.2",
         "tzdata==2025.2",
         "urllib3==2.4.0",
-        "xarray==2025.4.0"
+        "xarray==2025.4.0",
+        "tomli==2.2.1",
+        "exceptiongroup==1.3.0",
+        "iniconfig==2.1.0",
+        "pluggy==1.6.0",
+        "pytest==8.3.5",
     ]
 )

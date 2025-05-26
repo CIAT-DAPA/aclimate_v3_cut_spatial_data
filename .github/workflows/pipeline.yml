@@ -1,4 +1,4 @@
-name: Devops AClimate ORM
+name: Devops AClimate Cut Spatial Data Package
 
 on:
   push:
@@ -12,7 +12,7 @@ permissions:
 
 jobs:
 
-# ------- START ORM PROCCESS -------- #
+# ------- START Package PROCCESS -------- #
 
   TestCutData:
     runs-on: ubuntu-latest
@@ -33,18 +33,16 @@ jobs:
           pip install pytest
           pip install -e .
 
-      # - name: Run Tests with pytest
-      #   env:
-      #     DATABASE_URL: "sqlite:///:memory:"  # Base de datos SQLite en RAM (sin archivo)
-      #   run: |
-      #     source env/bin/activate
-      #     PYTHONPATH=$PYTHONPATH:./src pytest tests/
+      - name: Run Tests with pytest
+        run: |
+          source env/bin/activate
+          PYTHONPATH=$PYTHONPATH:./src pytest tests/
 
-# ------- END ORM PROCCESS -------- #    
+# ------- END Package PROCCESS -------- #    
 
 # ------- START MERGE PROCCESS -------- #
 
-  MergeMainORM:
+  MergeMainPackage:
     needs: [TestCutData]
     name: Merge Stage with Main
     permissions: write-all
@@ -65,7 +63,7 @@ jobs:
 # ------- START RELEASE PROCCESS -------- #
 
   PostRelease:
-    needs: MergeMainORM
+    needs: MergeMainPackage
     name: Create Release
     runs-on: ubuntu-latest
     permissions: write-all
@@ -75,13 +73,13 @@ jobs:
         fetch-depth: '0'
     # API Zip
     - name: Zip artifact for deployment
-      run: zip releaseORM.zip ./src/* -r
+      run: zip releasePackage.zip ./src/* -r
     # Upload Artifacts
-    - name: Upload ORM artifact for deployment job
+    - name: Upload packages artifact for deployment job
       uses: actions/upload-artifact@v4
       with:
-        name: ORM
-        path: releaseORM.zip
+        name: Packages
+        path: releasePackage.zip
     # Generate Tagname
     - name: Generate Tagname for release
       id: taggerDryRun
@@ -107,15 +105,15 @@ jobs:
         draft: false
         prerelease: false
     # Upload Assets to release
-    - name: Upload Release Asset ORM
-      id: upload-orm-release-asset 
+    - name: Upload Release Asset Package
+      id: upload-package-release-asset 
       uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
-        asset_path: ./releaseORM.zip
-        asset_name: releaseORM.zip
+        asset_path: ./releasePackage.zip
+        asset_name: releasePackage.zip
         asset_content_type: application/zip
     # update version setup.py
     - name: Checkout code

@@ -100,7 +100,7 @@ class RioGeoServerClipper(RioBaseClipper):
                 return gdf.geometry.iloc[0]
             
             # If all features, return union of all geometries
-            return gdf.unary_union
+            return gdf.geometry.union_all()
         
         except requests.exceptions.RequestException as e:
             logger.error(f"Error connecting to GeoServer: {str(e)}")
