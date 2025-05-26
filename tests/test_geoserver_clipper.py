@@ -6,6 +6,7 @@ from shapely.geometry import box
 import xarray
 from aclimate_v3_cut_spatial_data import get_clipper, GeoServerBasicAuth
 from io import BytesIO
+import os
 
 @pytest.fixture
 def mock_geoserver_response():
@@ -44,6 +45,13 @@ def sample_raster():
 
 @patch('geopandas.read_file')
 @patch('requests.get')
+@patch.dict(os.environ, {
+    "GEOSERVER_URL": "http://mock-server",
+    "GEOSERVER_WORKSPACE": "test_ws",
+    "GEOSERVER_LAYER": "test_layer",
+    "GEOSERVER_USER": "user",
+    "GEOSERVER_PASSWORD": "pass"
+})
 def test_geoserver_clipper(mock_get, mock_read, sample_raster, mock_geoserver_response, tmp_path):
     # Configurar mocks
     mock_response = Mock()
@@ -58,10 +66,6 @@ def test_geoserver_clipper(mock_get, mock_read, sample_raster, mock_geoserver_re
     
     # Configurar conexión GeoServer
     geoserver_conn = GeoServerBasicAuth()
-    geoserver_conn.base_url = "http://mock-geoserver"
-    geoserver_conn.workspace = "test_ws"
-    geoserver_conn.layer = "test_layer"
-    geoserver_conn.auth = ("user", "pass")
     
     # Probar el clipper
     clipper = get_clipper(sample_raster, 'geoserver')
