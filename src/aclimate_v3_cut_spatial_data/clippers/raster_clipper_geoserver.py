@@ -13,12 +13,15 @@ import re
 logger = logging.getLogger(__name__)
 
 class RioGeoServerClipper(RioBaseClipper):
+
     def __init__(self, raster: RioxarrayDataArray):
         super().__init__(raster)
         self.connection: Optional[GeoServerConnection] = None
     
     def clip(
         self,
+        workspace: str,
+        layer: str,
         feature_id: Optional[str] = None,
         cql_filter: Optional[str] = None,
         **kwargs
@@ -34,7 +37,7 @@ class RioGeoServerClipper(RioBaseClipper):
         if not self.connection:
             raise ValueError("No GeoServer connection has been established.")
         
-        geometry = self._get_geoserver_geometry(self.connection, feature_id, cql_filter)
+        geometry = self._get_geoserver_geometry(self.connection, workspace,  layer, feature_id, cql_filter)
         
         return self.raster.rio.clip(
             [geometry],
@@ -44,17 +47,19 @@ class RioGeoServerClipper(RioBaseClipper):
     def _get_geoserver_geometry(
         self,
         conn: GeoServerConnection,
+        workspace: str,
+        layer: str,
         feature_id: Optional[str] = None,
         cql_filter: Optional[str] = None
     ) -> ShapelyGeometry:
         """Fetches geometry from GeoServer"""
-        url = f"{conn.base_url}/{conn.workspace}/ows"
+        url = f"{conn.base_url}/{workspace}/ows"
         
         params = {
             'service': 'WFS',
             'version': '1.1.0',
             'request': 'GetFeature',
-            'typeName': f"{conn.layer}",
+            'typeName': f"{layer}",
         }
         
         if feature_id:

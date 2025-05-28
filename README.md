@@ -73,10 +73,10 @@ conn = GeoServerBasicAuth()  # Uses .env variables
 clipper = get_clipper(input_raster, 'geoserver')
 clipper.connection = conn
 
-result = clipper.clip("field_25") # If you want to clip by feature ID
+result = clipper.clip("workspace", "layer", "field_25") # If you want to clip by feature ID
 result.rio.to_raster(output_file)
 
-whole_result = clipper.clip() # If you want to clip by complete geometry
+whole_result = clipper.clip("workspace", "layer",) # If you want to clip by complete geometry
 result.rio.to_raster(output_file)
 
 ```
@@ -85,8 +85,6 @@ result.rio.to_raster(output_file)
 >  Required variables:
 >
 > - GEOSERVER_URL: Base URL of GeoServer (e.g., http://localhost:8080/geoserver)
-> - GEOSERVER_WORKSPACE: Name of the workspace
-> - GEOSERVER_LAYER: Name of the layer
 > - GEOSERVER_USER: Username
 > - GEOSERVER_PASSWORD: Password
 
@@ -122,8 +120,6 @@ Create .env file for GeoServer:
 
 ```bash
 set GEOSERVER_URL=http://localhost:8080/geoserver
-set GEOSERVER_WORKSPACE=your_workspace
-set GEOSERVER_LAYER=your_layer
 set GEOSERVER_USER=admin
 set GEOSERVER_PASSWORD=secure_password
 set DATABASE_URL=postgresql://user:pass@localhost/db
@@ -133,8 +129,6 @@ set DATABASE_URL=postgresql://user:pass@localhost/db
 
 ```bash
 export GEOSERVER_URL=http://localhost:8080/geoserver
-export GEOSERVER_WORKSPACE=your_workspace
-export GEOSERVER_LAYER=your_layer
 export GEOSERVER_USER=admin
 export GEOSERVER_PASSWORD=secure_password
 export DATABASE_URL=postgresql://user:pass@localhost/db
