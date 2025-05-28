@@ -22,8 +22,6 @@ class GeometryInput:
 @runtime_checkable
 class GeoServerConnection(Protocol):
     base_url: str
-    workspace: str
-    layer: str
     auth: tuple
 
     def get_feature(self, feature_id: str) -> 'GeometryInput': ...
@@ -41,24 +39,20 @@ class GeoServerBasicAuth(GeoServerConnection):
     - GEOSERVER_PASSWORD: Password
     """
     base_url: str = ""
-    workspace: str = ""
-    layer: str = ""
     auth: tuple = ("", "")
 
     def __init__(self):
         load_dotenv()
         self.base_url: str = os.getenv('GEOSERVER_URL')
-        self.workspace: str = os.getenv('GEOSERVER_WORKSPACE')
-        self.layer: str = os.getenv('GEOSERVER_LAYER')
         self.auth: tuple = (
             os.getenv('GEOSERVER_USER'), 
             os.getenv('GEOSERVER_PASSWORD')
         )
         """Validate that all required environment variables are set"""
-        if not all([self.base_url, self.workspace, self.layer, self.auth[0], self.auth[1]]):
+        if not all([self.base_url, self.auth[0], self.auth[1]]):
             raise ValueError(
                 "Missing required environment variables: "
-                "GEOSERVER_URL, GEOSERVER_WORKSPACE, GEOSERVER_LAYER, GEOSERVER_USER, GEOSERVER_PASSWORD"
+                "GEOSERVER_URL, GEOSERVER_USER, GEOSERVER_PASSWORD"
             )
 
     def get_feature(self, feature_id: str):

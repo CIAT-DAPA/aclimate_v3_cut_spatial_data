@@ -47,8 +47,6 @@ def sample_raster():
 @patch('requests.get')
 @patch.dict(os.environ, {
     "GEOSERVER_URL": "http://mock-server",
-    "GEOSERVER_WORKSPACE": "test_ws",
-    "GEOSERVER_LAYER": "test_layer",
     "GEOSERVER_USER": "user",
     "GEOSERVER_PASSWORD": "pass"
 })
@@ -72,7 +70,7 @@ def test_geoserver_clipper(mock_get, mock_read, sample_raster, mock_geoserver_re
     clipper.connection = geoserver_conn
     
     output_path = tmp_path / "output_geoserver.tif"
-    result = clipper.clip(feature_id="1")
+    result = clipper.clip("test_ws", "test_layer",  feature_id="1")
     result.rio.to_raster(output_path)
     
     # Verificaciones
@@ -85,7 +83,7 @@ def test_geoserver_clipper_no_connection(sample_raster):
     clipper = get_clipper(sample_raster, 'geoserver')
     
     with pytest.raises(ValueError, match="No GeoServer connection"):
-        clipper.clip()
+        clipper.clip("test_ws", "test_layer",)
 
 @patch('geopandas.read_file')
 @patch('requests.get')
@@ -107,7 +105,7 @@ def test_geoserver_clipper_cql_filter(mock_get, mock_read, sample_raster, mock_g
     clipper = get_clipper(sample_raster, 'geoserver')
     clipper.connection = geoserver_conn
     
-    clipper.clip(cql_filter="NAME='Test'")
+    clipper.clip("test_ws", "test_layer", cql_filter="NAME='Test'")
     
     # Verificar que se usó el filtro CQL
     assert mock_get.call_args[1]['params']['cql_filter'] == "NAME='Test'"
