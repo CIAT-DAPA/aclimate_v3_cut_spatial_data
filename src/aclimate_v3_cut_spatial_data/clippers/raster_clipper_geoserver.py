@@ -13,6 +13,7 @@ import re
 logger = logging.getLogger(__name__)
 
 class RioGeoServerClipper(RioBaseClipper):
+
     def __init__(self, raster: RioxarrayDataArray):
         super().__init__(raster)
         self.connection: Optional[GeoServerConnection] = None
@@ -44,17 +45,19 @@ class RioGeoServerClipper(RioBaseClipper):
     def _get_geoserver_geometry(
         self,
         conn: GeoServerConnection,
+        workspace: str,
+        layer: str,
         feature_id: Optional[str] = None,
         cql_filter: Optional[str] = None
     ) -> ShapelyGeometry:
         """Fetches geometry from GeoServer"""
-        url = f"{conn.base_url}/{conn.workspace}/ows"
+        url = f"{conn.base_url}/{workspace}/ows"
         
         params = {
             'service': 'WFS',
             'version': '1.1.0',
             'request': 'GetFeature',
-            'typeName': f"{conn.layer}",
+            'typeName': f"{layer}",
         }
         
         if feature_id:
