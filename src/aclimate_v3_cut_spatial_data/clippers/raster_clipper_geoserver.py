@@ -20,6 +20,8 @@ class RioGeoServerClipper(RioBaseClipper):
     
     def clip(
         self,
+        workspace: str,
+        layer: str,
         feature_id: Optional[str] = None,
         cql_filter: Optional[str] = None,
         **kwargs
@@ -35,7 +37,7 @@ class RioGeoServerClipper(RioBaseClipper):
         if not self.connection:
             raise ValueError("No GeoServer connection has been established.")
         
-        geometry = self._get_geoserver_geometry(self.connection, feature_id, cql_filter)
+        geometry = self._get_geoserver_geometry(self.connection, workspace,  layer, feature_id, cql_filter)
         
         return self.raster.rio.clip(
             [geometry],
