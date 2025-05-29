@@ -76,8 +76,8 @@ clipper.connection = conn
 result = clipper.clip("workspace", "layer", "field_25") # If you want to clip by feature ID
 result.rio.to_raster(output_file)
 
-whole_result = clipper.clip("workspace", "layer",) # If you want to clip by complete geometry
-result.rio.to_raster(output_file)
+whole_result = clipper.clip("workspace", "layer") # If you want to clip by complete geometry
+whole_result.rio.to_raster(output_file)
 
 ```
 
