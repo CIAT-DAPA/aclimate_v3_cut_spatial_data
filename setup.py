@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="aclimate_v3_cut_spatial_data",
-    version='v0.0.4',
+    version='v0.0.5',
     author="santiago123x",
     author_email="s.calderon@cgiar.com",
     description="Package to clip spatial data (raster/vector) using shapefiles or coordinates. Perfect for processing climate, agricultural, or environmental data",
