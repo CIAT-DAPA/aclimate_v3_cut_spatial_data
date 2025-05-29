@@ -9,6 +9,7 @@ from shapely.geometry import shape
 import logging
 from io import BytesIO
 import re
+from urllib.parse import urljoin
 
 logger = logging.getLogger(__name__)
 
@@ -53,7 +54,9 @@ class RioGeoServerClipper(RioBaseClipper):
         cql_filter: Optional[str] = None
     ) -> ShapelyGeometry:
         """Fetches geometry from GeoServer"""
-        url = f"{conn.base_url}/{workspace}/ows"
+        workspace_clean = workspace.strip().strip('/')
+        base_url = conn.base_url if conn.base_url.endswith('/') else conn.base_url + '/'
+        url = urljoin(base_url, f"{workspace_clean}/ows")
         
         params = {
             'service': 'WFS',
