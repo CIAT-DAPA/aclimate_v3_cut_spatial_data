@@ -44,6 +44,12 @@ class GeoServerBasicAuth(GeoServerConnection):
     def __init__(self):
         load_dotenv()
         self.base_url: str = os.getenv('GEOSERVER_URL')
+        
+        if self.base_url.endswith('/rest'):
+            self.base_url = self.base_url[:-5]
+        else:
+            self.base_url = self.base_url.replace('/rest/', '/').rstrip('/')
+
         self.auth: tuple = (
             os.getenv('GEOSERVER_USER'), 
             os.getenv('GEOSERVER_PASSWORD')
