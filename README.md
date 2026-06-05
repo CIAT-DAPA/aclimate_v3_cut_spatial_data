@@ -4,7 +4,7 @@
 
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/CIAT-DAPA/aclimate_v3_cut_spatial_data) ![](https://img.shields.io/github/v/tag/CIAT-DAPA/aclimate_v3_cut_spatial_data)
 
-**Tags:** `gis`, `raster`, `geoprocessing`, `python`, `geoserver`, `postgis`
+**Tags:** `gis`, `raster`, `geoprocessing`, `python`, `geoserver`, `postgis`, `spatial_data`
 
 ---
 
