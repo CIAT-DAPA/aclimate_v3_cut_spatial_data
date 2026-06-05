@@ -170,6 +170,6 @@ aclimate_v3_cut_spatial_data/
 │   ├── test_data/             # Sample files
 │   ├── test_shape_clipper.py
 │   └── test_geoserver_clipper.py
-├── setup.py
+├── pyproject.toml
 └── requirements.txt # Package dependencies
 ```
