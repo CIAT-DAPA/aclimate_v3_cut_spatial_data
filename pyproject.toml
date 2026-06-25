@@ -5,8 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "aclimate-v3-cut-spatial-data"
 description = "AClimate Cut Spatial Data Package"
-version = "0.1.0"
-authors = [{ name = "santiago123x", email = "s.calderon@cgiar.com" }]
+version = "v0.0.8"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
@@ -53,8 +52,8 @@ dependencies = [
 Homepage = "https://github.com/CIAT-DAPA/aclimate_v3_cut_spatial_data"
 Download = "https://github.com/CIAT-DAPA/aclimate_v3_cut_spatial_data"
 
-[tool.setuptools]
-package-dir = { "" = "src" }
+[tool.setuptools.package-dir]
+"" = "src"
 
 [tool.setuptools.packages.find]
 where = ["src"]
